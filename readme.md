@@ -45,5 +45,7 @@ Unicode characters are automatically escaped into HTML entities.
 
 Alas, due to the nature of HAML, not all white-space between tags can be faithfully interpreted: either white space between both start/close tags, or no spaces at all.
 
+TODO: url option in tohaml; examples;
+
 Copyright (c) 2013 Bosco Ho. BSD license.
 
