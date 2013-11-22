@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-description = """converts HTML files to HAML
+description = """converts HTML to HAML for the HamlPy compiler
 
 Docs at http://github.com/boscoh/haml.
 """

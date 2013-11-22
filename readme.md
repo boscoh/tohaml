@@ -27,7 +27,6 @@ will write to `index.haml`.
 
 In Python scripts, let's say you already have `index.html`:
 
-    ```python
     import tohaml
     import StringIO
 
@@ -35,7 +34,6 @@ In Python scripts, let's say you already have `index.html`:
     output = StringIO.StringIO()
     tohaml.print_haml(html, stream=output)
     print output.getvalue()
-    ```
 
 ## Flavor of HAML
 
@@ -47,5 +45,5 @@ Unicode characters are automatically escaped into HTML entities.
 
 Alas, due to the nature of HAML, not all white-space between tags can be faithfully interpreted: either white space between both start/close tags, or no spaces at all.
 
-Copyright (c) 2013 Bosco Ho.
+Copyright (c) 2013 Bosco
 
