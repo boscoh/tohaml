@@ -39,7 +39,7 @@ In Python scripts, let's say you already have `index.html`:
 
 There are a few different varieties of HAML. `tohaml` targets the variety used by the python-based [HamlPy compiler](https://github.com/jessemiller/HamlPy).
 
-In particular, CSS and Javascript are preserved in indented blocks using the `:css` and `:javascript` tags. As well, tag attributes are stored in the `{}` notation of Python dictionaries.
+In particular, `<style>` elements are preserved in indented blocks using the `:css` filter. As well, tag attributes are stored in the `{}` notation of Python dictionaries.
 
 Unicode characters are automatically escaped into HTML entities.
 
