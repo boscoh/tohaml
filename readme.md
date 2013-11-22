@@ -1,7 +1,7 @@
 
 # tohaml
 
-An HTML to HAML converter, targeting the Python HamlPy compiler.
+An HTML to HAML converter, targeting the HamlPy compiler.
 
 ## Installation
 
@@ -37,7 +37,7 @@ In Python scripts, let's say you already have `index.html`:
 
 ## Flavor of HAML
 
-There are a few different varieties of HAML. `tohaml` targets the variety used by the python [HamlPy compiler](https://github.com/jessemiller/HamlPy).
+There are a few different varieties of HAML. `tohaml` targets the variety used by the python-based [HamlPy compiler](https://github.com/jessemiller/HamlPy).
 
 In particular, CSS and Javascript are preserved in indented blocks using the `:css` and `:javascript` tags. As well, tag attributes are stored in the `{}` notation of Python dictionaries.
 

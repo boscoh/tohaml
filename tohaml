@@ -7,11 +7,10 @@ import tohaml
 
 usage = \
 """
-toHAML - an HTML to HAML converter
-the particular dialect of HAML is 
-HAMLPY (https://github.com/jessemiller/HamlPy)
+toHAML - an HTML to HAML converter the particular dialect of HAML is HAMLPY
+(https://github.com/jessemiller/HamlPy)
 
-usage: tohaml.py .html
+usage: tohaml html [haml]
 """
 
 
