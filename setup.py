@@ -3,7 +3,7 @@ from setuptools import setup
 
 description = """converts HTML to HAML for the HamlPy compiler
 
-Docs at http://github.com/boscoh/haml.
+Docs at http://github.com/boscoh/tohaml.
 """
 
 setup(
