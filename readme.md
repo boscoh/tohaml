@@ -35,15 +35,15 @@ In Python scripts, let's say you already have `index.html`:
     tohaml.print_haml(html, stream=output)
     print output.getvalue()
 
-## Flavor of HAML
+## This flavor of HAML
 
 There are a few different varieties of HAML. `tohaml` targets the variety used by the python-based [HamlPy compiler](https://github.com/jessemiller/HamlPy).
 
 In particular, `<style>` elements are preserved in indented blocks using the `:css` filter. As well, tag attributes are stored in the `{}` notation of Python dictionaries.
 
-Unicode characters are automatically escaped into HTML entities.
+Unicode characters are automatically escaped into HTML entities. A couple of characters that are crucial to HamlPy ('-', '#', '%') are also escaped if they are at the beginning of a block.
 
-Alas, due to the nature of HAML, not all white-space between tags can be faithfully interpreted: either white space between both start/close tags, or no spaces at all.
+Alas, due to the nature of HAML, not all white-space between tags can be faithfully interpreted: either white space are inserted between both start/close tags, or no spaces at all.
 
 ## Future Ideas
 
