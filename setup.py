@@ -12,7 +12,7 @@ setup(
     author='Bosco Ho',
     author_email='boscoh@gmail.com',
     url='http://github.com/boscoh/tohaml',
-    description='converts html to haml',
+    description='converts HTML to HAML for the HamlPy compiler',
     long_description=description,
     license='BSD',
     install_requires=['beautifulsoup4'],
