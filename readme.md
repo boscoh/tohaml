@@ -27,7 +27,7 @@ will write to `index.haml`.
 
 Alternatively, for shits and giggles, `tohaml` can fetch straight from a URL:
 
-    >> tohaml http://python.org python.html
+    >> tohaml http://python.org python.haml
 
 If you want to work this into a workflow in Python scripts, then, let's say you already have `index.html`:
 
