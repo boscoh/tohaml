@@ -23,13 +23,13 @@ will output to screen; and
 
     >> tohaml index.html index.haml
 
-`tohaml` can fetch straight from a URL:
+will write to `index.haml`.
+
+Alternatively, for shits and giggles, `tohaml` can fetch straight from a URL:
 
     >> tohaml http://python.org python.html
 
-will write to `index.haml`.
-
-In Python scripts, let's say you already have `index.html`:
+If you want to work this into a workflow in Python scripts, then, let's say you already have `index.html`:
 
     import StringIO
     import codecs
