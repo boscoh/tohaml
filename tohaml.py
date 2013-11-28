@@ -30,26 +30,9 @@ from __future__ import print_function, division, unicode_literals
 
 import sys
 import os
-import codecs
 from htmlentitydefs import codepoint2name
 
 import bs4
-
-
-def read_text(fname):
-  "Reads in utf-8 encoding (includes ascii)"
-  with codecs.open(fname, encoding='utf-8') as f:
-    text = f.read()
-  return text
-
-
-def write_text(fname, text):
-  "Writes text to file in utf-8 and creates directory if needed."
-  dirname = os.path.dirname(fname)
-  if dirname and not os.path.isdir(dirname):
-    os.makedirs(dirname)
-  with codecs.open(fname, 'w', encoding='utf-8') as f:
-    f.write(text)
 
 
 def is_tag(elem):
@@ -222,10 +205,9 @@ def print_elem(indent, elem, stream):
       print(print_string, file=stream, end='')
 
 
-def print_haml(html, stream=sys.stdout):
-  html_text = read_text(html)
-  soup = bs4.BeautifulSoup(html_text)
-  print_elem(0, soup.html, stream)
+def print_haml(in_stream, out_stream=sys.stdout):
+  soup = bs4.BeautifulSoup(in_stream)
+  print_elem(0, soup.html, out_stream)
 
 
 
