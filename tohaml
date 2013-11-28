@@ -24,7 +24,7 @@ if __name__ == '__main__':
       out_f = codecs.open(sys.argv[2], 'w', encoding='utf-8')
     else:
       out_f = sys.stdout
-    in_stream = codecs.open(sys.argv[1])
+    in_stream = codecs.open(sys.argv[1], encoding='utf-8')
     tohaml.print_haml(in_stream, out_f)
 
 

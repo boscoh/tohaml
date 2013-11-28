@@ -27,13 +27,17 @@ will write to `index.haml`.
 
 In Python scripts, let's say you already have `index.html`:
 
-    import tohaml
     import StringIO
+    import codecs
 
-    input = open('index.html')
-    output = StringIO.StringIO()
-    tohaml.print_haml(input, output)
-    print output.getvalue()
+    import tohaml
+
+    # read unicode characters - covers most cases :/
+    in_stream = codecs.open('index.html', encoding='utf-8')
+
+    out_stream = StringIO.StringIO()
+    tohaml.print_haml(in_stream, out_stream)
+    print out_stream.getvalue()
 
 ## This flavor of HAML
 
