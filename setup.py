@@ -8,7 +8,7 @@ Docs at http://github.com/boscoh/tohaml.
 
 setup(
     name='tohaml',
-    version='1.0a1',
+    version='1.0a2',
     author='Bosco Ho',
     author_email='boscoh@gmail.com',
     url='http://github.com/boscoh/tohaml',
