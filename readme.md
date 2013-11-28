@@ -23,6 +23,10 @@ will output to screen; and
 
     >> tohaml index.html index.haml
 
+`tohaml` can fetch straight from a URL:
+
+    >> tohaml http://python.org python.html
+
 will write to `index.haml`.
 
 In Python scripts, let's say you already have `index.html`:

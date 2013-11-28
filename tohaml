@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, unicode_literals
 
+import os
+import urllib2
 import sys
 import codecs
 
@@ -9,10 +11,12 @@ import tohaml
 
 usage = \
 """
-toHAML - an HTML to HAML converter, targeting the HamlPy compiler
+toHAML - an HTML to HAML converter, targeting the python HamlPy compiler
 Copyright (c) 2013, Bosco Ho.
 
 usage: tohaml html [haml]
+
+- html can be either a local .html file, or an URL 
 """
 
 
@@ -20,11 +24,16 @@ if __name__ == '__main__':
   if len(sys.argv) < 2:
     print(usage)
   else:
+    in_name = sys.argv[1]
+    if os.path.isfile(in_name):
+      in_stream = codecs.open(in_name, encoding='utf-8')
+    elif in_name.startswith('http'):
+      in_stream = urllib2.urlopen(in_name)
+
+    out_f = sys.stdout
     if len(sys.argv) > 2:
       out_f = codecs.open(sys.argv[2], 'w', encoding='utf-8')
-    else:
-      out_f = sys.stdout
-    in_stream = codecs.open(sys.argv[1], encoding='utf-8')
+
     tohaml.print_haml(in_stream, out_f)
 
 
