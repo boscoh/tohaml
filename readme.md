@@ -30,9 +30,9 @@ In Python scripts, let's say you already have `index.html`:
     import tohaml
     import StringIO
 
-    html = 'index.html'
+    input = open('index.html')
     output = StringIO.StringIO()
-    tohaml.print_haml(html, stream=output)
+    tohaml.print_haml(input, output)
     print output.getvalue()
 
 ## This flavor of HAML
