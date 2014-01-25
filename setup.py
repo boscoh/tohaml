@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-description = """converts HTML to HAML for the HamlPy compiler
-
-Docs at http://github.com/boscoh/tohaml.
-"""
+description = "Docs at http://github.com/boscoh/tohaml."
 
 setup(
     name='tohaml',
-    version='1.0a3',
+    version='1.0',
     author='Bosco Ho',
     author_email='boscoh@gmail.com',
     url='http://github.com/boscoh/tohaml',
