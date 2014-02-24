@@ -44,11 +44,11 @@ def attr_str(attrs):
     return ''
   pieces = []
   for key, val in attrs.items():
-    piece = key + ':'
+    piece = '{}:'.format(key)
     if isinstance(val, list):
-      piece += '\'{}\''.format(' '.join(val))
+      piece += '\"{}\"'.format(' '.join(val))
     else:
-      piece += repr(val)
+      piece += '\"{}\"'.format(val)
     pieces.append(piece)
   s = '{'
   s += ','.join(pieces)
