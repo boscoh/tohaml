@@ -31,6 +31,7 @@ from __future__ import print_function, division, unicode_literals
 import sys
 import os
 import io
+import re
 from htmlentitydefs import codepoint2name
 
 import bs4
@@ -99,8 +100,9 @@ def print_tag(indent_str, elem, stream):
   tag = ''
   if name == 'div':
     if 'id' in attrs:
-      tag = '#' + attrs['id']
-      del attrs['id']
+      if not re.match(r'.*[#|.].*', attrs['id']):
+        tag = '#' + attrs['id']
+        del attrs['id']
     if 'class' in attrs:
       for attr_class in filter( lambda x: len(x) > 0, attrs['class']):
         tag += '.' + attr_class
@@ -209,11 +211,11 @@ def print_elem(indent, elem, stream):
 def print_haml(in_stream, out_stream=sys.stdout):
   soup = bs4.BeautifulSoup(in_stream)
   print_elem(0, soup.html, out_stream)
-def render_tag(string):
+def render(string):
   output = io.StringIO()
   soup  = bs4.BeautifulSoup(string)
   for child in soup.children:
-    print_tag('', child, output)
+    print_elem(0, child, output)
   return output.getvalue().rstrip('\n')
 
 
