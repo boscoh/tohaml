@@ -30,6 +30,7 @@ from __future__ import print_function, division, unicode_literals
 
 import sys
 import os
+import io
 from htmlentitydefs import codepoint2name
 
 import bs4
@@ -101,7 +102,7 @@ def print_tag(indent_str, elem, stream):
       tag = '#' + attrs['id']
       del attrs['id']
     if 'class' in attrs:
-      for attr_class in attrs['class']:
+      for attr_class in filter( lambda x: len(x) > 0, attrs['class']):
         tag += '.' + attr_class
       del attrs['class']
   if tag == '':
@@ -208,6 +209,12 @@ def print_elem(indent, elem, stream):
 def print_haml(in_stream, out_stream=sys.stdout):
   soup = bs4.BeautifulSoup(in_stream)
   print_elem(0, soup.html, out_stream)
+def render_tag(string):
+  output = io.StringIO()
+  soup  = bs4.BeautifulSoup(string)
+  for child in soup.children:
+    print_tag('', child, output)
+  return output.getvalue().rstrip('\n')
 
 
 
