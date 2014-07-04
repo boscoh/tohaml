@@ -104,9 +104,12 @@ def print_tag(indent_str, elem, stream):
         tag = '#' + attrs['id']
         del attrs['id']
     if 'class' in attrs:
-      for attr_class in filter( lambda x: len(x) > 0, attrs['class']):
+      for attr_class in filter( lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
         tag += '.' + attr_class
-      del attrs['class']
+      if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
+         attrs['class'] = filter( lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
+      else:
+        del attrs['class']
   if tag == '':
     tag = '%' + name
   tag += attr_str(attrs)

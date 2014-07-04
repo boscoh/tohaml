@@ -12,6 +12,10 @@ class HtmlToHamlPyTest(unittest.TestCase):
     def test_id_with_dot_and_hash(self):
         self.assertEqual('%div{id:"foo.bar"}', tohaml.render("<div id='foo.bar'></div>"))
         self.assertEqual('%div{id:"foo#bar"}', tohaml.render("<div id='foo#bar'></div>"))
+    def test_class_with_dot_and_hash(self):
+        self.assertEqual('%div{class:"foo.bar"}', tohaml.render("<div class=' foo.bar '></div>"))
+        self.assertEqual('%div{class:"foo#bar"}', tohaml.render("<div class=' foo#bar '></div>"))
+        self.assertEqual('.foo.bar{class:"foo#bar foo.bar"}', tohaml.render("<div class='foo foo#bar bar foo.bar'></div>"))
     def test_self_closing_tag(self):
         self.assertEqual("%img", tohaml.render("<img />"))
     def test_inline_text(self):
