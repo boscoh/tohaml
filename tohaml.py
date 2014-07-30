@@ -30,6 +30,8 @@ from __future__ import print_function, division, unicode_literals
 
 import sys
 import os
+import io
+import re
 from htmlentitydefs import codepoint2name
 
 import bs4
@@ -98,12 +100,16 @@ def print_tag(indent_str, elem, stream):
   tag = ''
   if name == 'div':
     if 'id' in attrs:
-      tag = '#' + attrs['id']
-      del attrs['id']
+      if not re.match(r'.*[#|.].*', attrs['id']):
+        tag = '#' + attrs['id']
+        del attrs['id']
     if 'class' in attrs:
-      for attr_class in attrs['class']:
+      for attr_class in filter( lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
         tag += '.' + attr_class
-      del attrs['class']
+      if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
+         attrs['class'] = filter( lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
+      else:
+        del attrs['class']
   if tag == '':
     tag = '%' + name
   tag += attr_str(attrs)
@@ -167,7 +173,7 @@ def unicode_to_entities(text):
   """
   Identifies unicode characters that can be converted to
   HTML-safe html-entities. Also translates smart single and
-  double quotes into normal double and single quotes, and 
+  double quotes into normal double and single quotes, and
   turns ellipses into three full-stops.
   """
   new_lines = []
@@ -199,7 +205,7 @@ def print_elem(indent, elem, stream):
     # navigable string or comment
     raw_string = unicode(elem)
     clean_string = replace_reserved_first_char(raw_string)
-    clean_string = unicode_to_entities(clean_string)    
+    clean_string = unicode_to_entities(clean_string)
     print_string = indented_string(indent, clean_string)
     if print_string.strip():
       print(print_string, file=stream, end='')
@@ -208,7 +214,3 @@ def print_elem(indent, elem, stream):
 def print_haml(in_stream, out_stream=sys.stdout):
   soup = bs4.BeautifulSoup(in_stream)
   print_elem(0, soup.html, out_stream)
-
-
-
-
