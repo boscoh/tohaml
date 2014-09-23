@@ -121,12 +121,15 @@ def print_tag(indent_str, elem, stream):
   if name == 'style':
     print(indent_str, ':css', file=stream, sep='')
     return
-  tag = ''
+
+  tag = get_element_id(attrs) + get_element_class(attrs)
   if name == 'div':
-    tag = get_element_id(attrs) + get_element_class(attrs)
-  if tag == '':
-    tag = '%' + name
+    if tag == '':
+        tag = '%' + name
+  else:
+    tag = '%' + name + tag
   tag += attr_str(attrs)
+
   if elem.name in ['a', 'span', 'strong', 'em']:
     if is_outer_nospace(elem):
       tag += '>'
