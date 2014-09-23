@@ -91,6 +91,30 @@ def is_inner_nospace(elem):
   return result
 
 
+def get_element_id(attrs):
+  """Get the element's id and remove it from attrs."""
+  if 'id' in attrs:
+    if not re.match(r'.*[#|.].*', attrs['id']):
+      tag = '#' + attrs['id']
+      del attrs['id']
+      return tag
+  return ''
+
+
+def get_element_class(attrs):
+  """Get the element's class and remove it from attrs."""
+  if 'class' in attrs:
+    tag = ''
+    for attr_class in filter(lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
+      tag += '.' + attr_class
+    if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
+       attrs['class'] = filter(lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
+    else:
+      del attrs['class']
+    return tag
+  return ''    
+
+
 def print_tag(indent_str, elem, stream):
   attrs = elem.attrs
   name = elem.name
@@ -99,17 +123,7 @@ def print_tag(indent_str, elem, stream):
     return
   tag = ''
   if name == 'div':
-    if 'id' in attrs:
-      if not re.match(r'.*[#|.].*', attrs['id']):
-        tag = '#' + attrs['id']
-        del attrs['id']
-    if 'class' in attrs:
-      for attr_class in filter( lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
-        tag += '.' + attr_class
-      if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
-         attrs['class'] = filter( lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
-      else:
-        del attrs['class']
+    tag = get_element_id(attrs) + get_element_class(attrs)
   if tag == '':
     tag = '%' + name
   tag += attr_str(attrs)
