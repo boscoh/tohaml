@@ -36,6 +36,8 @@ from htmlentitydefs import codepoint2name
 
 import bs4
 
+RE_COMPILED = re.compile(r'.*[#|.].*')
+
 
 def is_tag(elem):
   return isinstance(elem, bs4.element.Tag)
@@ -94,7 +96,7 @@ def is_inner_nospace(elem):
 def get_element_id(attrs):
   """Get the element's id and remove it from attrs."""
   if 'id' in attrs:
-    if not re.match(r'.*[#|.].*', attrs['id']):
+    if not RE_COMPILED.match(attrs['id']):
       tag = '#' + attrs['id']
       del attrs['id']
       return tag
@@ -105,14 +107,14 @@ def get_element_class(attrs):
   """Get the element's class and remove it from attrs."""
   if 'class' in attrs:
     tag = ''
-    for attr_class in filter(lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
+    for attr_class in filter(lambda x: len(x) > 0 and not RE_COMPILED.match(x), attrs['class']):
       tag += '.' + attr_class
-    if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
-       attrs['class'] = filter(lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
+    if any(map(lambda c: RE_COMPILED.match(c), attrs['class'])):
+       attrs['class'] = filter(lambda x: RE_COMPILED.match(x), attrs['class'])
     else:
       del attrs['class']
     return tag
-  return ''    
+  return ''
 
 
 def print_tag(indent_str, elem, stream):
