@@ -23,10 +23,14 @@ class HtmlToHamlPyTest(unittest.TestCase):
         self.assertEqual("%p\n  foo", render("<p>foo</p>"))
 
     def test_id_and_class(self):
-        self.assertEqual(u'%h1#id.cls', render("<h1 class='cls' id='id'></h1>"))
-        self.assertEqual(u'#id.cls1.cls2.cls3', render("<div class='cls1 cls2 cls3' id='id'></div>"))
-        self.assertEqual(u'%h1.cls{id:"#id"}', render("<h1 class='cls' id='#id'></h1>"))
-        self.assertEqual(u'.cls1{class:"cl.s2 c#ls3",id:".id"}', render("<div class='cls1 cl.s2 c#ls3' id='.id'></div>"))
+        self.assertEqual('%h1#id.cls', render("<h1 class='cls' id='id'></h1>"))
+        self.assertEqual('#id.cls1.cls2.cls3', render("<div class='cls1 cls2 cls3' id='id'></div>"))
+        self.assertEqual('%h1.cls{id:"#id"}', render("<h1 class='cls' id='#id'></h1>"))
+        self.assertEqual('.cls1{class:"cl.s2 c#ls3",id:".id"}', render("<div class='cls1 cl.s2 c#ls3' id='.id'></div>"))
+        self.assertEqual('''%tr{class:"{% cycle 'odd' 'even' %}"}''', render('''<tr class="{% cycle 'odd' 'even' %}">'''))
+        self.assertEqual('''%tr.cls1{class:"{% cycle 'odd' 'even' %} cls.2"}''', render('''<tr class="cls1 {% cycle 'odd' 'even' %} cls.2">'''))
+        self.assertEqual('''%tr.cls1{class:"{% cycle 'odd' 'even' %} cls.2 {{ another_class }}"}''', render('''<tr class="cls1 {% cycle 'odd' 'even' %} cls.2 {{ another_class }}">'''))
+        self.assertEqual('''%tr{id:"cls1_{% cycle 'odd' 'even' %}_{{ another_class }}"}''', render('''<tr id="cls1_{% cycle 'odd' 'even' %}_{{ another_class }}">'''))
 
 if __name__ == '__main__':
     unittest.main()
