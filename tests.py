@@ -21,5 +21,12 @@ class HtmlToHamlPyTest(unittest.TestCase):
     def test_inline_text(self):
         #FIXME
         self.assertEqual("%p\n  foo", render("<p>foo</p>"))
+
+    def test_id_and_class(self):
+        self.assertEqual(u'%h1#id.cls', render("<h1 class='cls' id='id'></h1>"))
+        self.assertEqual(u'#id.cls1.cls2.cls3', render("<div class='cls1 cls2 cls3' id='id'></div>"))
+        self.assertEqual(u'%h1.cls{id:"#id"}', render("<h1 class='cls' id='#id'></h1>"))
+        self.assertEqual(u'.cls1{class:"cl.s2 c#ls3",id:".id"}', render("<div class='cls1 cl.s2 c#ls3' id='.id'></div>"))
+
 if __name__ == '__main__':
     unittest.main()
