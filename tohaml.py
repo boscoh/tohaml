@@ -36,6 +36,8 @@ from htmlentitydefs import codepoint2name
 
 import bs4
 
+RE_COMPILED = re.compile(r'.*(?:#|\.|\{\{|\{%).*')
+
 
 def is_tag(elem):
   return isinstance(elem, bs4.element.Tag)
@@ -94,7 +96,7 @@ def is_inner_nospace(elem):
 def get_element_id(attrs):
   """Get the element's id and remove it from attrs."""
   if 'id' in attrs:
-    if not re.match(r'.*[#|.].*', attrs['id']):
+    if not RE_COMPILED.match(attrs['id']):
       tag = '#' + attrs['id']
       del attrs['id']
       return tag
@@ -104,16 +106,44 @@ def get_element_id(attrs):
 def get_element_class(attrs):
   """Get the element's class and remove it from attrs."""
   if 'class' in attrs:
+    fold_jinja_tags_in_class(attrs)
     tag = ''
-    for attr_class in filter(lambda x: len(x) > 0 and not re.match(r'.*[#|.].*', x), attrs['class']):
+    for attr_class in filter(lambda x: len(x) > 0 and not RE_COMPILED.match(x), attrs['class']):
       tag += '.' + attr_class
-    if any(map(lambda c: re.match(r'.*[#|.].*', c), attrs['class'])):
-       attrs['class'] = filter(lambda x: re.match(r'.*[#|.].*', x), attrs['class'])
+    if any(map(lambda c: RE_COMPILED.match(c), attrs['class'])):
+       attrs['class'] = filter(lambda x: RE_COMPILED.match(x), attrs['class'])
     else:
       del attrs['class']
     return tag
-  return ''    
+  return ''
 
+
+def fold_jinja_tags_in_class(attrs):
+  """Example:
+
+  HTML input is '''<tr class="{% cycle 'odd' 'even' %}">''', after parsing one's have:
+
+      attrs['class'] = ['{%', 'cycle', "'odd'", "'even'", '%}']
+
+  Get the positions of special jinja tags:
+
+      pos = [0, 4]
+
+  and fold these elements to the one jinja tag, finally attrs['class'] looks like this:
+  
+      attrs['class'] = ['''{% cycle 'odd' 'even' %}''']
+
+  """
+  if '{%' not in attrs['class'] and '{{' not in attrs['class']:
+      return
+
+  pos = [i for i, cls in enumerate(attrs['class']) if cls in ('{%', '%}', '{{', '}}')]
+  assert len(pos) % 2 == 0
+  pos_itr = iter(sorted(pos, reverse=True))
+  for end, begin in zip(pos_itr, pos_itr):
+    attrs['class'].insert(begin, ' '.join(attrs['class'][begin:end + 1]))
+    del attrs['class'][begin + 1:end + 2]
+    
 
 def print_tag(indent_str, elem, stream):
   attrs = elem.attrs
